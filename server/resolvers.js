@@ -27,3 +27,35 @@ var coursesData = [
         voteCount: 0
     }
 ];
+
+const resolvers = {
+    Query: {
+        allCourses: (root, {searchTerm}) => {
+            return coursesData;
+        },
+        course: (root, {id}) => {
+            return courseModel.findOne({id: id});
+        },
+    },
+    Mutation: {
+        upvote: (root, {id}) => {
+            const course = courseData.filter(course => {
+                return course.id === id
+            })[0];
+            course.voteCount++;
+            return course;
+        },
+        downvote: (root, {id}) => {
+            const course = courseData.filter(course => {
+                return course.id === id
+            })[0];
+            course.voteCount--;
+            return course;
+        },
+        addCourse: (root, { title, author, description, topic, url }) => {
+            return null;
+        }
+    }
+}
+
+export default resolvers;
